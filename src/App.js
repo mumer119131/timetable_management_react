@@ -1,25 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './Components/Header';
+import Schedule from './Components/Schedule'
+import Dashboard from './Components/Dashboard/Dashboard'
+import Rooms from './Components/Rooms'
+import Classes from './Components/Classes'
+import Search from './Components/Search'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import { createContext } from 'react';
+import generateSlots from './Adapters/SlotsAdapter';
+
+const SlotsContext = createContext()
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path='/' element={
+            <SlotsContext.Provider value={generateSlots()}>
+              <Dashboard />
+            </SlotsContext.Provider>
+          } />
+          <Route path='/rooms' element={<Rooms />} />
+          <Route path='/classes' element={<Classes />} />
+          <Route path='/search' element={<Search />} />
+          <Route path='/addSchedule' element={<Schedule />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
 export default App;
+export {SlotsContext}
