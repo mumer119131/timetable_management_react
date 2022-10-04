@@ -10,7 +10,7 @@ const SingleRoom = (props) => {
         const date = new Date()
 
         var search_time = date.getTime()
-        if(!selectedSlot === 'Current'){
+        if(!selectedSlot.match(/Current/g)){
           search_time = timeParser(selectedSlot)
         }
         try {

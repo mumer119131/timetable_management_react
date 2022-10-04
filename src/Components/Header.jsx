@@ -1,21 +1,28 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Disclosure} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 
-const navigation = [
-    { name: 'Dashboard', to: '/', current: true },
-    { name: 'Rooms', to: '/rooms', current: false },
-    { name: 'Classes', to: '/classes', current: false },
-    { name: 'Search', to: '/search', current: false },
-  ]
 
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
+
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
 
 const Header = () => {
-  return (
+  const [activeNav, setActiveNav] = useState('dashboard')
+  console.log(activeNav);
+  const navigation = [
+    { name: 'Dashboard', to: '/', current: (activeNav === 'dashboard' ? true : false) },
+    { name: 'Rooms', to: '/rooms', current: (activeNav === 'rooms' ? true : false) },
+    { name: 'Classes', to: '/classes', current: (activeNav === 'classes' ? true : false) },
+    { name: 'Schedule', to: '/schedule', current: (activeNav === 'schedule' ? true : false) },
+    { name: 'Search', to: '/search', current: (activeNav === 'search' ? true : false) },
+  ]
+
+    return (
     <header>
         <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -57,6 +64,7 @@ const Header = () => {
                           'px-3 py-2 rounded-md text-sm font-medium'
                         )}
                         aria-current={item.current ? 'page' : undefined}
+                        onClick={()=> setActiveNav(item.name.toLowerCase())}
                       >
                         {item.name}
                       </Link>
@@ -64,14 +72,7 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className=""
-                >
-                  <Link to='/addSchedule' className="bg-white py-2 px-4 rounded text-gray-800">Add Schedule</Link>
-                </button>
-              </div>
+              
             </div>
           </div>
 

@@ -11,13 +11,13 @@ function generateSlots(){
             start_hr += 1
             continue
         }
-        let slot = start_hr+":"+start_min
+        let slot = addLeadingZero(start_hr)+":"+addLeadingZero(start_min)
         start_min += credit_time
         if(start_min >= 60){
             start_min -= 60
             start_hr += 1
         }
-        slot += "-"+start_hr+":"+start_min
+        slot += "-"+addLeadingZero(start_hr)+":"+addLeadingZero(start_min)
         slots.push(slot)
         if(start_hr >= end_hr && start_min >= end_min){
             break
@@ -26,5 +26,9 @@ function generateSlots(){
     }
     return slots
 }   
+
+function addLeadingZero(val){
+    return val.toString().padStart(2, '0')
+}
 
 export default generateSlots
