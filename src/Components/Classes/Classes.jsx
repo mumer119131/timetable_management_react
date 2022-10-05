@@ -44,7 +44,7 @@ const Classes = () => {
     }
 
     getClasses()
-  },[])
+  },[isDeletePopOpen, isEditPopOpen, isAddPopOpen])
   return (
     <>
     <DeletePopup isDeletePopOpen={isDeletePopOpen} closeDeleteModal={closeDeleteModal} deleteFunc={deleteClass}/>

@@ -5,7 +5,8 @@ import { SlotsContext } from '../../App'
 import OptionsList from '../HeadlessUi/OptionsList'
 
 const Dashboard = () => {
-  const slots = useContext(SlotsContext)
+  var slots = useContext(SlotsContext)
+  slots = ['Current',...slots]
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   const [selected, setSelected] = useState(slots[0])
   const [selectedDay, setSelectedDay] = useState(dayNames[new Date().getDay()]) 

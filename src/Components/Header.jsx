@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Disclosure} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
-
+import LOGO_IMG from '../assets/cs_logo.svg'
 
 
 
@@ -44,13 +44,14 @@ const Header = () => {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="block h-8 w-auto lg:hidden"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    src={LOGO_IMG}
+                    alt="CS_LOGO"
                   />
+                  
                   <img
                     className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    src={LOGO_IMG}
+                    alt="CS_LOGO"
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">

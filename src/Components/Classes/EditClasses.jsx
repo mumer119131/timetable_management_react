@@ -1,6 +1,7 @@
 import React,{Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const EditClasses = (props) => {
     const {isEditPopOpen, closeEditModal, class_name, class_} = props
@@ -15,12 +16,18 @@ const EditClasses = (props) => {
     },[class_name, class_])
     async function editClass(){
         try{
-            await axios.post('http://127.0.0.1:5000/editClass',{
+          if(!className || !classCrName || !strength){
+            toast.error("Enter required fields")
+            return
+          }
+            const response = await axios.post('http://127.0.0.1:5000/editClass',{
                 'class_name' : className,
                 'old_class_name' : class_name,
                 'strength' : strength,
                 'cr_name' : classCrName
             })
+            toast.info(response.data.message)
+            closeEditModal()
         }catch(error){
             console.log(error)
         }
@@ -69,7 +76,7 @@ const EditClasses = (props) => {
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                      onClick={() => {editClass(); closeEditModal()}}
+                      onClick={() => {editClass(); }}
                     >
                       Edit Class
                     </button>

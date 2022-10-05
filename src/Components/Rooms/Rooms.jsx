@@ -47,7 +47,7 @@ const Rooms = () => {
       }
     }
     getRooms();
-  }, []);
+  }, [isAddPopOpen, isEditPopOpen, isDeletePopOpen]);
   return (
     <>
       <DeletePopup isDeletePopOpen={isDeletePopOpen} closeDeleteModal={closeDeleteModal} deleteFunc={deleteRoom}/>

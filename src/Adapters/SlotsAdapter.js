@@ -5,7 +5,7 @@ function generateSlots(){
     let end_hr = 19
     let end_min = 0
     let credit_time = 50
-    var slots = ['Current']
+    var slots = []
     while (true){
         if(start_hr === 13){
             start_hr += 1

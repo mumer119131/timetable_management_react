@@ -1,6 +1,7 @@
 import React, {useState, Fragment} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 
 const AddClass = (props) => {
@@ -10,12 +11,17 @@ const AddClass = (props) => {
     const [strength , setStrength] = useState('')
     async function addClass(){
         try{
+            if(!className || !classCrName || !strength){
+              toast.error('Enter required fields')
+              return
+            }
             let response = await axios.post('http://127.0.0.1:5000/addClass',{
               "class_name" : className,
               "cr_name" : classCrName,
               "strength" : strength,
             })
-            console.log(response.data.message)
+            toast.info(response.data.message)
+            closeAddModal()
           }catch(error){
             console.log(error);
           }
@@ -64,7 +70,7 @@ const AddClass = (props) => {
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                      onClick={() => {addClass(); closeAddModal()}}
+                      onClick={() => {addClass();}}
                     >
                       Add Class
                     </button>
