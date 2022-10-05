@@ -15,7 +15,7 @@ const AddClass = (props) => {
               toast.error('Enter required fields')
               return
             }
-            let response = await axios.post('http://127.0.0.1:5000/addClass',{
+            let response = await axios.post('https://timetable-management-api.vercel.app/addClass',{
               "class_name" : className,
               "cr_name" : classCrName,
               "strength" : strength,

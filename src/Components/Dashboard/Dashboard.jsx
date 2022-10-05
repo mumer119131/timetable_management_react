@@ -14,7 +14,7 @@ const Dashboard = () => {
   useEffect(()=>{
     async function getAllRooms(){
       try {
-        const rooms_data =  await axios.get("http://127.0.0.1:5000/getRoomsByFloor")
+        const rooms_data =  await axios.get("https://timetable-management-api.vercel.app/getRoomsByFloor")
         setRooms(rooms_data.data)
       } catch (error) {
         console.log(error);

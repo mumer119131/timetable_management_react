@@ -21,10 +21,10 @@ const AddSchedule = (props) => {
     async function getRoomsAndClasses(){
         console.log('called')
         try {
-            const response = await axios.get('http://127.0.0.1:5000/getAllRooms')
+            const response = await axios.get('https://timetable-management-api.vercel.app/getAllRooms')
             setRooms(Object.keys(response.data))
             console.log(classes);
-            const classesResponse = await axios.get('http://127.0.0.1:5000/allClasses')
+            const classesResponse = await axios.get('https://timetable-management-api.vercel.app/allClasses')
             setClasses(Object.keys(classesResponse.data))
         } catch (error) {
             console.log(error)
@@ -39,7 +39,7 @@ const AddSchedule = (props) => {
             toast.error("Enter required fields")
             return
           }
-          const response = await axios.post("http://127.0.0.1:5000/addSchedule", {
+          const response = await axios.post("https://timetable-management-api.vercel.app/addSchedule", {
               "class_name" : selectedClass,
               "room_name" : selectedRoom,
               "day" : selectedDay,

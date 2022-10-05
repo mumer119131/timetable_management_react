@@ -20,7 +20,7 @@ const EditClasses = (props) => {
             toast.error("Enter required fields")
             return
           }
-            const response = await axios.post('http://127.0.0.1:5000/editClass',{
+            const response = await axios.post('https://timetable-management-api.vercel.app/editClass',{
                 'class_name' : className,
                 'old_class_name' : class_name,
                 'strength' : strength,

@@ -22,9 +22,9 @@ const EditSchedule = (props) => {
     async function getRoomsAndClasses(){
         console.log('called')
         try {
-            const response = await axios.get('http://127.0.0.1:5000/getAllRooms')
+            const response = await axios.get('https://timetable-management-api.vercel.app/getAllRooms')
             setRooms(Object.keys(response.data))
-            const classesResponse = await axios.get('http://127.0.0.1:5000/allClasses')
+            const classesResponse = await axios.get('https://timetable-management-api.vercel.app/allClasses')
             setClasses(Object.keys(classesResponse.data))
         } catch (error) {
             console.log(error)

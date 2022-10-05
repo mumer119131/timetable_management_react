@@ -13,7 +13,7 @@ const Schedules = () => {
   useEffect(()=>{
     async function getSchedules(){
       try {
-        const response = await axios.get('http://127.0.0.1:5000/allSchedules')
+        const response = await axios.get('https://timetable-management-api.vercel.app/allSchedules')
         setSchedules(response.data)
       } catch (error) {
         console.log(error)

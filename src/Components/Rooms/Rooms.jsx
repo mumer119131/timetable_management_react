@@ -28,7 +28,7 @@ const Rooms = () => {
   async function deleteRoom(){
     closeDeleteModal()
     try{
-      await axios.post("http://127.0.0.1:5000/deleteRoom",{
+      await axios.post("https://timetable-management-api.vercel.app/deleteRoom",{
         'room_name' : roomToDelete
       })
       delete rooms.roomToDelete
@@ -40,7 +40,7 @@ const Rooms = () => {
   useEffect(() => {
     async function getRooms() {
       try {
-        const roomsData = await axios.get("http://127.0.0.1:5000/getAllRooms");
+        const roomsData = await axios.get("https://timetable-management-api.vercel.app/getAllRooms");
         setRooms(roomsData.data);
       } catch (error) {
         console.log(error);
