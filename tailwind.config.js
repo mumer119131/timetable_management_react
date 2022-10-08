@@ -4,7 +4,14 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      visibility: ["group-hover"],
+    },
+  },
+  variants: {
+    extend : {
+      visibility: ["group-hover"],
+    }
   },
   plugins: [],
 }

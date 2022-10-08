@@ -25,7 +25,7 @@ const SingleRoom = (props) => {
                 }else{
                   if ( search_time["start_time"] >= start_time && search_time["end_time"] <= end_time){
                     setIsRoomFree(false)
-                    setCurrentClassName([schedule[time]["class_name"], schedule[time]["course_code"]])
+                    setCurrentClassName([schedule[time]["class_name"], schedule[time]["course_code"], schedule[time]['teacher_name']])
                   }
                 }
               })
@@ -46,13 +46,18 @@ const SingleRoom = (props) => {
   },[selectedSlot, selectedDay, room])
   
   return (
-    <div className={(!isRoomFree ? "bg-gradient-to-r from-cyan-500 to-blue-500 " : "bg-gray-700 ") + "flex flex-col w-max justify-center rounded py-8 px-20 text-white drop-shadow-md hover:drop-shadow-2xl cursor-pointer"}>
-        <p className='absolute left-2 top-2 text-cyan-100 text-xs bg-cyan-600 rounded-lg px-4'>{room.size}</p>
+    <div className={(!isRoomFree ? "bg-gradient-to-r from-cyan-500 to-blue-500 " : "bg-gray-700 ") + "flex flex-col w-64 px-4 items-start rounded py-8 text-white drop-shadow-md hover:drop-shadow-2xl cursor-pointer"}>
+        
         <p className='font-bold text-sm'>{!isRoomFree ? currentClassName[0] : ''}</p>
         <p className='font-thin text-xs'>{!isRoomFree ? '('+currentClassName[1]+')' : ''}</p>
+        <p className='font-thin text-sm'>{!isRoomFree ? currentClassName[2] : ''}</p>
         <p className='text-4xl'>{room_name}</p>
-        <p className='text-sm font-thin'>Projector {room.projector ? <AiFillCheckCircle className='inline' /> : <AiFillCloseCircle className='inline' /> }</p>
-        <p>- {room.type} -</p>
+        <div className='flex gap-2 flex-wrap mt-4'>
+          <p className='bg-teal-800 text-xs w-max px-2 rounded-lg '>{room.size}</p>
+          <p className={(!room.projector ? "bg-rose-800 line-through" : 'bg-teal-800') + ' text-xs w-max px-2 rounded-lg'}>Projector</p>
+          <p className='bg-teal-800 text-xs w-max px-2 rounded-lg '>{room.type}</p>
+        </div>
+        
     </div>
   )
 }

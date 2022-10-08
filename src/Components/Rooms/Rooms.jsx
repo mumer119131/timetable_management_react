@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {AiOutlineCheck } from 'react-icons/ai'
+import {AiFillEdit, AiOutlineCheck } from 'react-icons/ai'
 import {GrFormClose} from 'react-icons/gr'
+import {TiDelete} from 'react-icons/ti'
 import DeletePopup from "../HeadlessUi/DeletePopup";
 import AddRoomPopup from "./AddRoomPopup";
 import EditRoomPopup from "./EditRoomPopup";
@@ -10,9 +11,9 @@ const Rooms = () => {
   const [isDeletePopOpen, setIsDeletePopOpen] = useState(false)
   const [isAddPopOpen, setIsAddPopOpen] = useState(false)
   const [isEditPopOpen, setIsEditPopOpen] = useState(false)
-  const [roomToDelete, setRoomToDelete] = useState('')
+  const [roomToDelete, setRoomToDelete] = useState([])
   const [roomToEdit, setRoomToEdit] = useState('')
-  const tableTitles = ["Name", "Floor", "Projector", "Size", "Type", "Edit", "Delete"];
+  const tableTitles = ["Name", "Floor", "Projector", "Size", "Type"];
   
   function closeDeleteModal() {
     setIsDeletePopOpen(false)
@@ -40,7 +41,8 @@ const Rooms = () => {
   useEffect(() => {
     async function getRooms() {
       try {
-        const roomsData = await axios.get("https://timetable-management-api.vercel.app/getAllRooms");
+        const roomsData = await axios.get("http://127.0.0.1:5000/getAllRooms");
+        console.log(roomsData);
         setRooms(roomsData.data);
       } catch (error) {
         console.log(error);
@@ -52,7 +54,7 @@ const Rooms = () => {
     <>
       <DeletePopup isDeletePopOpen={isDeletePopOpen} closeDeleteModal={closeDeleteModal} deleteFunc={deleteRoom}/>
       <AddRoomPopup isAddPopOpen={isAddPopOpen} closeAddModal={closeAddModal}/>
-      {roomToEdit ? <EditRoomPopup isEditPopOpen={isEditPopOpen} closeEditModal={closeEditModal} room={rooms[roomToEdit]} room_name={roomToEdit} /> : null}
+      {roomToEdit ? <EditRoomPopup isEditPopOpen={isEditPopOpen} closeEditModal={closeEditModal} room={rooms[roomToEdit[1]]} room_name={roomToEdit} /> : null}
       <div className="text-right px-8 mt-4">
       <button
                       type="button"
@@ -62,7 +64,13 @@ const Rooms = () => {
                       Add Room
                     </button>
       </div>
-      <div className="flex flex-col p-8">
+      {Object.keys(rooms).map((floors, ind)=>{
+        const floor_rooms = rooms[floors]
+        return (
+
+        <div key={ind}>
+          <h2 className="text-2xl text-cyan-600 text-center">{floors}</h2>
+          <div className="flex flex-col p-8">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
             <div className="overflow-hidden">
@@ -83,9 +91,10 @@ const Rooms = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.keys(rooms).map((room, index)=>{
-                    const {floor, projector, size, type} = rooms[room]
-                    return <tr className="border-b" key={index}>
+                  {Object.keys(floor_rooms).map((room, index)=>{
+                    const {floor, projector, size, type} = floor_rooms[room]
+                    console.log()
+                    return <tr className={(index % 2===0 ? "bg-slate-200 " : "")+"border-b hover:bg-slate-300 group ease-in duration-300"} key={index}s>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-thin">
                           {room}
                         </td>
@@ -101,11 +110,11 @@ const Rooms = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-thin">
                           {type}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-green-700 font-thin cursor-pointer hover:underline" onClick={()=> {setIsEditPopOpen(true); setRoomToEdit(room)}}>
-                          Edit
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-green-700 font-thin cursor-pointer hover:underline hidden group-hover:inline-block w-10" onClick={()=> {setIsEditPopOpen(true); setRoomToEdit([room, floors])}}>
+                          <AiFillEdit className="w-5 h-5"/>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-thin text-red-600 hover:underline cursor-pointer" onClick={()=> {setIsDeletePopOpen(true); setRoomToDelete(room)}} >
-                          Delete
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-thin text-red-600 hover:underline cursor-pointer hidden group-hover:inline-block w-10" onClick={()=> {setIsDeletePopOpen(true); setRoomToDelete(room)}} >
+                          <TiDelete className="w-5 h-5"/>
                         </td>
                   </tr>
                   })}
@@ -115,6 +124,9 @@ const Rooms = () => {
           </div>
         </div>
       </div>
+        </div>
+        )
+      })}
     </>
   );
 };

@@ -7,7 +7,7 @@ import EditClasses from './EditClasses'
 const Classes = () => {
 
   const [classes, setClasses] = useState({})
-  const tableTitles = ['Name', 'Cr Name', 'Strength','Edit', 'Delete']
+  const tableTitles = ['Name', 'Cr Name', 'Strength']
   const [classToDelete, setClassToDelete] = useState('')
   const [isDeletePopOpen, setIsDeletePopOpen] = useState(false)
   const [classToEdit, setClassToEdit] = useState('')
@@ -25,7 +25,7 @@ const Classes = () => {
   async function deleteClass(){
     closeDeleteModal()
     try {
-      await axios.post('https://timetable-management-api.vercel.app//deleteClass',{
+      await axios.post('http://127.0.0.1:5000/deleteClass',{
         "class_name" : classToDelete
       })
     } catch (error) {
@@ -36,7 +36,7 @@ const Classes = () => {
 
     async function getClasses(){
       try{
-        const response = await axios.get('https://timetable-management-api.vercel.app/allClasses')
+        const response = await axios.get('http://127.0.0.1:5000/allClasses')
         setClasses(response.data)
       }catch(error){
         console.log(error);
@@ -82,7 +82,7 @@ const Classes = () => {
                 <tbody>
                   {Object.keys(classes).map((class_, index)=>{
                     const {cr_name ,strength} = classes[class_]
-                    return <tr className="border-b" key={index}>
+                    return <tr className="border-b group" key={index}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-thin">
                           {class_}
                         </td>
@@ -92,10 +92,10 @@ const Classes = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-thin">
                           {strength}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-green-700 font-thin cursor-pointer hover:underline" onClick={()=> {setIsEditPopOpen(true); setClassToEdit(class_)}}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-green-700 font-thin cursor-pointer hover:underline hidden group-hover:inline-block" onClick={()=> {setIsEditPopOpen(true); setClassToEdit(class_)}}>
                           Edit
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-thin text-red-600 hover:underline cursor-pointer" onClick={()=> {setIsDeletePopOpen(true); setClassToDelete(class_)}} >
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-thin text-red-600 hover:underline cursor-pointer hidden group-hover:inline-block" onClick={()=> {setIsDeletePopOpen(true); setClassToDelete(class_)}} >
                           Delete
                         </td>
                   </tr>

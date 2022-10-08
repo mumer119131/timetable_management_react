@@ -1,58 +1,84 @@
-import React, { Fragment, useContext, useState } from 'react'
+import React, {useState, Fragment, useContext, useEffect} from 'react'
+import {SlotsContext} from '../../App'
 import { Dialog, Transition } from '@headlessui/react'
 import OptionsList from '../HeadlessUi/OptionsList'
-import { SlotsContext } from '../../App'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
 const AddSchedule = (props) => {
+    const slots = useContext(SlotsContext)
+    const {isAddPopOpen, closeAddModal} = props
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday"]
+    const [classesList, setClassesList] = useState([])
+    const [floorsList, setFloorsList] = useState([])
+    const [roomsList, setRoomsList] = useState([])
+    const [courseCode, setCourseCode] = useState('')
+    const [teacherName, setTeacherName] = useState('')
+    const [selectedClassName, setSelectedClassName] = useState('Class')
+    const [selectedFloor, setSelectedFloor] = useState('Floor')
+    const [selectedRoom, setSelectedRoom] = useState('Room')
+    const [selectedDay, setSelectedDay] = useState(days[new Date().getDay()])
+    const [selectedSlot, setSelectedSlot] = useState(slots[0])
 
-  const {isAddPopOpen, closeAddModal} = props
-  const [classes, setClasses] = useState(['- Select Class -'])
-  const [rooms, setRooms] = useState(['- Select Room -'])
-  const daysList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-  const slots = useContext(SlotsContext)
-  const [selectedClass, setSelectedClass] = useState(classes[0])
-  const [selectedRoom, setSeletedRoom] = useState(rooms[0])
-  const [selectedDay, setSelectedDay] = useState(daysList[0])
-  const [selectedSlot, setSelectedSlot] = useState(slots[0])
-  const [courseCode, setCourseCode] = useState('')
-  useState(()=>{
-    async function getRoomsAndClasses(){
-        console.log('called')
-        try {
-            const response = await axios.get('https://timetable-management-api.vercel.app/getAllRooms')
-            setRooms(Object.keys(response.data))
-            console.log(classes);
-            const classesResponse = await axios.get('https://timetable-management-api.vercel.app/allClasses')
-            setClasses(Object.keys(classesResponse.data))
-        } catch (error) {
-            console.log(error)
+    const [floors, setFloors] = useState({})
+    function setRooms(){
+        try{
+            if (selectedFloor == 'Floor'){
+                return
+            }else{
+                setRoomsList(Object.keys(floors[selectedFloor]))
+            }
+        }catch(error){
+            console.log(error);
         }
     }
-    getRoomsAndClasses()
-  })
-  async function addSchedule(){
-    
-      try{
-          if(!courseCode || selectedClass.match(/- Class -/g) || selectedRoom.match(/- Room-/g)){
-            toast.error("Enter required fields")
-            return
-          }
-          const response = await axios.post("https://timetable-management-api.vercel.app/addSchedule", {
-              "class_name" : selectedClass,
-              "room_name" : selectedRoom,
-              "day" : selectedDay,
-              "time" : selectedSlot,
-              "course_code" : courseCode
+    useEffect(()=>{
+        
+        async function getAllFloors(){
+            try{
+                const response = await axios.get("http://127.0.0.1:5000/getAllRooms")
+                setFloors(response.data)
+                setFloorsList(Object.keys(response.data))
+            }catch(error){
+                console.log(error)
+            }
+        }
+        async function getClasses(){
+            try {
+                const response = await axios.get("http://127.0.0.1:5000/allClasses")
+                setClassesList(Object.keys(response.data))
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        setRooms()
+        getAllFloors()
+        getClasses()
+    },[])
+    useEffect(()=>{
+        setRooms()
+    },[selectedFloor])
+    async function addSchedule(){
+        try{
+            if(!courseCode || !teacherName || selectedClassName=='Class' || selectedFloor=='Floor' || selectedRoom == 'Room'){
+                toast.error("Enter required fields")
+                return
+            }
+            const response = await axios.post("http://127.0.0.1:5000/addSchedule",{
+                "class_name" : selectedClassName,
+                "room_name" : selectedRoom,
+                "day" : selectedDay,
+                "time" : selectedSlot,
+                "course_code" : courseCode,
+                "floor" : selectedFloor,
+                "teacher_name" : teacherName
             })
             toast.info(response.data.message)
-            closeAddModal()
-    }catch(error){
-        console.log(error)
+        }catch(error){
+            console.log(error);
+        }
+        closeAddModal()
     }
-
-  }
   return (
     <Transition appear show={isAddPopOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeAddModal}>
@@ -87,10 +113,12 @@ const AddSchedule = (props) => {
                     Add a new Schedule
                   </Dialog.Title>
                   <form className="mt-2 flex flex-col gap-4">
-                  <input type="text" className='mt-1 border rounded p-2 border-gray-300 w-full' placeholder='Course Code' onChange={(e) => setCourseCode(e.target.value)} value={courseCode}/>
-                    <OptionsList selectedItem={selectedClass} setSelectedItem={setSelectedClass} itemsList={classes}/>
-                    <OptionsList selectedItem={selectedRoom} setSelectedItem={setSeletedRoom} itemsList={rooms}/>
-                    <OptionsList selectedItem={selectedDay} setSelectedItem={setSelectedDay} itemsList={daysList}/>
+                    <input type="text" className='mt-2 border-2 rounded p-2 border-gray-500 w-full' placeholder='Course Code' onChange={(e) => setCourseCode(e.target.value)} value={courseCode}/>
+                    <input type="text" className='mt-2 border-2 rounded p-2 border-gray-500 w-full' placeholder='Teacher Name' onChange={(e) => setTeacherName(e.target.value)} value={teacherName}/>
+                    <OptionsList selectedItem={selectedFloor} setSelectedItem={setSelectedFloor} itemsList={floorsList}/>
+                    <OptionsList selectedItem={selectedClassName} setSelectedItem={setSelectedClassName} itemsList={classesList}/>
+                    <OptionsList selectedItem={selectedRoom} setSelectedItem={setSelectedRoom} itemsList={roomsList}/>
+                    <OptionsList selectedItem={selectedDay} setSelectedItem={setSelectedDay} itemsList={days}/>
                     <OptionsList selectedItem={selectedSlot} setSelectedItem={setSelectedSlot} itemsList={slots}/>
                   </form>
 
@@ -98,7 +126,7 @@ const AddSchedule = (props) => {
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                      onClick={() => {addSchedule();}}
+                      onClick={() => {addSchedule(); }}
                     >
                       Add Schedule
                     </button>

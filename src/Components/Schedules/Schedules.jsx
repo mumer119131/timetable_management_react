@@ -1,19 +1,24 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { ToastContainer , toast} from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import AddSchedule from './AddSchedule'
-import ScheduleTable from './ScheduleTable'
+import SingleFloorSchedule from './SingleFloorSchedule'
 
 const Schedules = () => {
   const [schedules, setSchedules] = useState({})
   const [isAddPopOpen, setIsAddPopOpen] = useState(false)
+  const [isDeletePopOpen, setIsDeletePopOpen] = useState(false)
+  const [scheduleToDelete, setScheduleToDelete] = useState([])
+  const [isEditPopOpen, setIsEditPopOpen] = useState(false)
+  const [scheduleToEdit, setScheduleToEdit] = useState([])
+
   function closeAddModal(){
     setIsAddPopOpen(false)
   }
   useEffect(()=>{
     async function getSchedules(){
       try {
-        const response = await axios.get('https://timetable-management-api.vercel.app/allSchedules')
+        const response = await axios.get('http://127.0.0.1:5000/allSchedules')
         setSchedules(response.data)
       } catch (error) {
         console.log(error)
@@ -35,10 +40,10 @@ const Schedules = () => {
                       Add Schedule
                     </button>
       </div>
-      {Object.keys(schedules).map((room, index) => {
+      {Object.keys(schedules).map((floor, index) => {
         return <div key={index}>
-          <h2 className='text-center text-3xl font-bold text-cyan-600'>{room}</h2>
-          <ScheduleTable schedule={schedules[room]} roomName={room}/>
+          <h2 className='text-center text-3xl font-bold text-cyan-600'>{floor}</h2>
+          <SingleFloorSchedule schedule={schedules[floor]} floorName={floor}/>
         </div>;
       })}
     </div>

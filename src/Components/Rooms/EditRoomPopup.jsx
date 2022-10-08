@@ -9,18 +9,20 @@ const EditRoomPopup = (props) => {
     const roomTypes = ['Room', 'Lab']
     const RoomSizes = ['Large', 'Small', 'Medium']
     const {isEditPopOpen, closeEditModal, room_name, room} = props
-    const [roomName, setRoomName] = useState(room_name)
-    const [selectedFloor, setSelectedFloor] = useState(room['floor'])
-    const [selectedType, setSelectedType] = useState(room['type'])
-    const [isProjector, setProjecter] = useState(room['projector'])
-    const [selectedSize, setSelectedSize] = useState(room['size'])
+    const [roomName, setRoomName] = useState(room_name[0])
+    const [oldFloorName, setOldFloorName] = useState(room_name[1])
+    const [selectedFloor, setSelectedFloor] = useState(room[room_name[0]]['floor'])
+    const [selectedType, setSelectedType] = useState(room[room_name[0]]['type'])
+    const [isProjector, setProjecter] = useState(room[room_name[0]]['projector'])
+    const [selectedSize, setSelectedSize] = useState(room[room_name[0]]['size'])
     
     useEffect(()=>{
-        setSelectedFloor(room['floor'])
-        setSelectedType(room['type'])
-        setSelectedSize(room['size'])
-        setProjecter(room['projector'])
-        setRoomName(room_name)
+        setSelectedFloor(room[room_name[0]]['floor'])
+        setSelectedType(room[room_name[0]]['type'])
+        setSelectedSize(room[room_name[0]]['size'])
+        setProjecter(room[room_name[0]]['projector'])
+        setRoomName(room_name[0])
+        setOldFloorName([room_name[1]])
     },[room_name, room])
     async function editRoom(){
         try{
@@ -28,13 +30,14 @@ const EditRoomPopup = (props) => {
             toast.error("Enter Room Name")
             return
            }
-            const response = await axios.post('https://timetable-management-api.vercel.app/editRoom',{
-                'old_room_name' : room_name,
+            const response = await axios.post('http://127.0.0.1:5000/editRoom',{
+                'old_room_name' : room_name[0],
                 'room_name' : roomName,
                 'type' : selectedType,
                 'size' : selectedSize,
                 'projector' : isProjector,
-                'floor' : selectedFloor
+                'floor' : selectedFloor,
+                'old_floor' : oldFloorName[0]
             })
             toast.info(response.data.message)
             closeEditModal()
