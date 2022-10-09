@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Rooms from './Rooms'
-import { SlotsContext } from '../../App'
+import { LoadingContext, SlotsContext } from '../../App'
 import OptionsList from '../HeadlessUi/OptionsList'
 
 const Dashboard = () => {
   var slots = useContext(SlotsContext)
+  const setIsLoading = useContext(LoadingContext)
   slots = ['Current',...slots]
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   const [selected, setSelected] = useState(slots[0])
@@ -14,11 +15,12 @@ const Dashboard = () => {
   useEffect(()=>{
     async function getAllRooms(){
       try {
+        setIsLoading(true)
         const rooms_data =  await axios.get("http://127.0.0.1:5000/getRoomsByFloor")
-        console.log(rooms_data)
         setRooms(rooms_data.data)
+        setIsLoading(false)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
 

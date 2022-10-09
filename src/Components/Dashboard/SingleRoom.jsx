@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import {AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai'
 const SingleRoom = (props) => {
   const {room, room_name, selectedSlot, selectedDay} = props
   const [currentClassName, setCurrentClassName] = useState([])
@@ -30,7 +29,7 @@ const SingleRoom = (props) => {
                 }
               })
         } catch (error) {
-            console.log("no class")
+            
         }
         
     }

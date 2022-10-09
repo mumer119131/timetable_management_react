@@ -1,11 +1,12 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { LoadingContext } from '../../App'
 import DeletePopup from '../HeadlessUi/DeletePopup'
 import AddClass from './AddClass'
 import EditClasses from './EditClasses'
 
 const Classes = () => {
-
+  const setIsLoading = useContext(LoadingContext)
   const [classes, setClasses] = useState({})
   const tableTitles = ['Name', 'Cr Name', 'Strength']
   const [classToDelete, setClassToDelete] = useState('')
@@ -33,10 +34,12 @@ const Classes = () => {
     }
   }
   useEffect(()=>{
-
+    
     async function getClasses(){
       try{
+        setIsLoading(true)
         const response = await axios.get('http://127.0.0.1:5000/allClasses')
+        setIsLoading(false)
         setClasses(response.data)
       }catch(error){
         console.log(error);
@@ -92,11 +95,21 @@ const Classes = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-thin">
                           {strength}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-green-700 font-thin cursor-pointer hover:underline hidden group-hover:inline-block" onClick={()=> {setIsEditPopOpen(true); setClassToEdit(class_)}}>
-                          Edit
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-green-700 font-thin cursor-pointer hidden group-hover:table-cell w-10" onClick={()=> {setIsEditPopOpen(true); setClassToEdit(class_)}}>
+                        <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                          >
+                      Edit
+                    </button>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-thin text-red-600 hover:underline cursor-pointer hidden group-hover:inline-block" onClick={()=> {setIsDeletePopOpen(true); setClassToDelete(class_)}} >
-                          Delete
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-thin text-red-600 cursor-pointer hidden group-hover:table-cell w-10" onClick={()=> {setIsDeletePopOpen(true); setClassToDelete(class_)}} >
+                        <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                          >
+                      Delete
+                    </button>
                         </td>
                   </tr>
                   })}

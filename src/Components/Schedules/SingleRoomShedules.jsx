@@ -1,11 +1,11 @@
 import React from 'react'
 
 const SingleRoomShedules = (props) => {
-    const {schedule, floorName, roomName} = props
+    const {schedule, floorName, roomName, setIsDeletePopOpen, setScheduleToDelete} = props
     const tableTitles = [ 'Slot', 'Class', 'Teacher Name', 'Course Code']
   return (
-    Object.keys(schedule[roomName]).map((day)=>{
-            return <>
+    Object.keys(schedule[roomName]).map((day, ind)=>{
+            return <div key={ind}>
             <h2 className='ml-6 font-bold'>{day}</h2>
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -43,8 +43,15 @@ const SingleRoomShedules = (props) => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-thin">
                             {course_code}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-thin text-red-600 hover:underline cursor-pointer hidden group-hover:inline-block w-10">
-                            Delete
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-thin text-red-600 hover:underline cursor-pointer hidden group-hover:inline-block w-10"
+                            onClick={()=> { setIsDeletePopOpen(true); setScheduleToDelete({'floor':floorName, 'room_name' : roomName, 'day': day, 'slot' : slot})}}
+                          >
+                            <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                          >
+                      Delete
+                    </button>
                           </td>
                     </tr>
                     })}
@@ -53,7 +60,7 @@ const SingleRoomShedules = (props) => {
               </div>
             </div>
           </div>
-            </>
+            </div>
         })
   )
 }

@@ -13,7 +13,6 @@ function classNames(...classes) {
 
 const Header = () => {
   const [activeNav, setActiveNav] = useState('dashboard')
-  console.log(activeNav);
   const navigation = [
     { name: 'Dashboard', to: '/', current: (activeNav === 'dashboard' ? true : false) },
     { name: 'Rooms', to: '/rooms', current: (activeNav === 'rooms' ? true : false) },

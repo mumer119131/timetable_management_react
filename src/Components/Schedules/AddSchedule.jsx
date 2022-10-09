@@ -23,7 +23,7 @@ const AddSchedule = (props) => {
     const [floors, setFloors] = useState({})
     function setRooms(){
         try{
-            if (selectedFloor == 'Floor'){
+            if (selectedFloor === 'Floor'){
                 return
             }else{
                 setRoomsList(Object.keys(floors[selectedFloor]))
@@ -60,7 +60,7 @@ const AddSchedule = (props) => {
     },[selectedFloor])
     async function addSchedule(){
         try{
-            if(!courseCode || !teacherName || selectedClassName=='Class' || selectedFloor=='Floor' || selectedRoom == 'Room'){
+            if(!courseCode || !teacherName || selectedClassName==='Class' || selectedFloor==='Floor' || selectedRoom === 'Room'){
                 toast.error("Enter required fields")
                 return
             }
@@ -116,8 +116,8 @@ const AddSchedule = (props) => {
                     <input type="text" className='mt-2 border-2 rounded p-2 border-gray-500 w-full' placeholder='Course Code' onChange={(e) => setCourseCode(e.target.value)} value={courseCode}/>
                     <input type="text" className='mt-2 border-2 rounded p-2 border-gray-500 w-full' placeholder='Teacher Name' onChange={(e) => setTeacherName(e.target.value)} value={teacherName}/>
                     <OptionsList selectedItem={selectedFloor} setSelectedItem={setSelectedFloor} itemsList={floorsList}/>
-                    <OptionsList selectedItem={selectedClassName} setSelectedItem={setSelectedClassName} itemsList={classesList}/>
                     <OptionsList selectedItem={selectedRoom} setSelectedItem={setSelectedRoom} itemsList={roomsList}/>
+                    <OptionsList selectedItem={selectedClassName} setSelectedItem={setSelectedClassName} itemsList={classesList}/>
                     <OptionsList selectedItem={selectedDay} setSelectedItem={setSelectedDay} itemsList={days}/>
                     <OptionsList selectedItem={selectedSlot} setSelectedItem={setSelectedSlot} itemsList={slots}/>
                   </form>
