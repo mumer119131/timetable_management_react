@@ -25,7 +25,7 @@ const Schedules = () => {
     async function getSchedules(){
       try {
         setIsLoading(true)
-        const response = await axios.get('http://127.0.0.1:5000/allSchedules')
+        const response = await axios.get('https://vercel.com/mumer119131/timetable-management-api/allSchedules')
         setSchedules(response.data)
         setIsLoading(false)
       } catch (error) {
@@ -34,12 +34,12 @@ const Schedules = () => {
     }
 
     getSchedules()
-  },[isAddPopOpen, isDeletePopOpen])
+  },[isAddPopOpen, isDeletePopOpen, setIsLoading])
   async function deleteSchedule(){
     closeDeleteModal()
     try{
       const {floor, room_name, day, slot} = scheduleToDelete
-      const response = await axios.post("http://127.0.0.1:5000/deleteSchedule",{
+      const response = await axios.post("https://vercel.com/mumer119131/timetable-management-api/deleteSchedule",{
         "floor" : floor,
         "room_name" : room_name,
         "day" : day,

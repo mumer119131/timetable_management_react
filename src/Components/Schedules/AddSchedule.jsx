@@ -36,7 +36,7 @@ const AddSchedule = (props) => {
         
         async function getAllFloors(){
             try{
-                const response = await axios.get("http://127.0.0.1:5000/getAllRooms")
+                const response = await axios.get("https://vercel.com/mumer119131/timetable-management-api/getAllRooms")
                 setFloors(response.data)
                 setFloorsList(Object.keys(response.data))
             }catch(error){
@@ -45,7 +45,7 @@ const AddSchedule = (props) => {
         }
         async function getClasses(){
             try {
-                const response = await axios.get("http://127.0.0.1:5000/allClasses")
+                const response = await axios.get("https://vercel.com/mumer119131/timetable-management-api/allClasses")
                 setClassesList(Object.keys(response.data))
             } catch (error) {
                 console.log(error)

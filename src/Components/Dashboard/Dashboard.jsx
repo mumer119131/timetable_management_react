@@ -16,7 +16,7 @@ const Dashboard = () => {
     async function getAllRooms(){
       try {
         setIsLoading(true)
-        const rooms_data =  await axios.get("http://127.0.0.1:5000/getRoomsByFloor")
+        const rooms_data =  await axios.get("https://vercel.com/mumer119131/timetable-management-api/getRoomsByFloor")
         setRooms(rooms_data.data)
         setIsLoading(false)
       } catch (error) {
@@ -25,12 +25,12 @@ const Dashboard = () => {
     }
 
     getAllRooms();
-  },[])
+  },[setIsLoading])
   return (
     <div className='mt-8'>
       <div className='text-center'>
         <p className='text-gray-600 text-xs'>- Keep track of the most valueable thing in your life -</p>
-        <h1 className='font-bold text-4xl text-sky-700'>Timetable Management</h1>
+        <h1 className='font-bold text-4xl text-sky-700'>Dept. Timetable Management</h1>
       </div>
       <div className='flex flex-wrap justify-center gap-4 mt-8'>
       <div className='w-40'>

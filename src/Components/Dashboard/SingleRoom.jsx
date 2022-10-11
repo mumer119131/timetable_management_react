@@ -45,7 +45,7 @@ const SingleRoom = (props) => {
   },[selectedSlot, selectedDay, room])
   
   return (
-    <div className={(!isRoomFree ? "bg-gradient-to-r from-cyan-500 to-blue-500 " : "bg-gray-700 ") + "flex flex-col w-64 px-4 items-start rounded py-8 text-white drop-shadow-md hover:drop-shadow-2xl cursor-pointer"}>
+    <div className={(!isRoomFree ? "bg-gradient-to-r from-cyan-500 to-blue-500 " : "bg-gray-700 ") + "flex flex-col justify-center w-64 px-4 items-start rounded py-8 text-white drop-shadow-md hover:drop-shadow-2xl cursor-pointer"}>
         
         <p className='font-bold text-sm'>{!isRoomFree ? currentClassName[0] : ''}</p>
         <p className='font-thin text-xs'>{!isRoomFree ? '('+currentClassName[1]+')' : ''}</p>

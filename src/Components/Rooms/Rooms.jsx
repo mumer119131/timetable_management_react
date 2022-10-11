@@ -43,7 +43,7 @@ const Rooms = () => {
     async function getRooms() {
       try {
         setIsLoading(true)
-        const roomsData = await axios.get("http://127.0.0.1:5000/getAllRooms");
+        const roomsData = await axios.get("https://vercel.com/mumer119131/timetable-management-api/getAllRooms");
         setIsLoading(false)
         setRooms(roomsData.data);
       } catch (error) {
@@ -51,7 +51,7 @@ const Rooms = () => {
       }
     }
     getRooms();
-  }, [isAddPopOpen, isEditPopOpen, isDeletePopOpen]);
+  }, [isAddPopOpen, isEditPopOpen, isDeletePopOpen, setIsLoading]);
   return (
     <>
       <DeletePopup isDeletePopOpen={isDeletePopOpen} closeDeleteModal={closeDeleteModal} deleteFunc={deleteRoom}/>
@@ -114,7 +114,7 @@ const Rooms = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-green-700 font-thin cursor-pointer hover:underline hidden group-hover:table-cell w-10" onClick={()=> {setIsEditPopOpen(true); setRoomToEdit([room, floors])}}>
                         <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-6 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                           >
                       Edit
                     </button>
@@ -122,7 +122,7 @@ const Rooms = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-thin text-red-600 hover:underline cursor-pointer hidden group-hover:table-cell w-10" onClick={()=> {setIsDeletePopOpen(true); setRoomToDelete(room)}} >
                         <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-6 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                           >
                       Delete
                     </button>
