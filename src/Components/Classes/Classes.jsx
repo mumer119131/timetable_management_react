@@ -26,7 +26,7 @@ const Classes = () => {
   async function deleteClass(){
     closeDeleteModal()
     try {
-      await axios.post('https://vercel.com/mumer119131/timetable-management-api/deleteClass',{
+      await axios.post('https://timetable-management-api.vercel.app/deleteClass',{
         "class_name" : classToDelete
       })
     } catch (error) {
@@ -38,7 +38,7 @@ const Classes = () => {
     async function getClasses(){
       try{
         setIsLoading(true)
-        const response = await axios.get('https://vercel.com/mumer119131/timetable-management-api/allClasses')
+        const response = await axios.get('https://timetable-management-api.vercel.app/allClasses')
         setIsLoading(false)
         setClasses(response.data)
       }catch(error){

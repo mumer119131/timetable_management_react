@@ -43,7 +43,7 @@ const Rooms = () => {
     async function getRooms() {
       try {
         setIsLoading(true)
-        const roomsData = await axios.get("https://vercel.com/mumer119131/timetable-management-api/getAllRooms");
+        const roomsData = await axios.get("https://timetable-management-api.vercel.app/getAllRooms");
         setIsLoading(false)
         setRooms(roomsData.data);
       } catch (error) {

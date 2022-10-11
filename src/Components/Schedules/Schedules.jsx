@@ -25,7 +25,7 @@ const Schedules = () => {
     async function getSchedules(){
       try {
         setIsLoading(true)
-        const response = await axios.get('https://vercel.com/mumer119131/timetable-management-api/allSchedules')
+        const response = await axios.get('https://timetable-management-api.vercel.app/allSchedules')
         setSchedules(response.data)
         setIsLoading(false)
       } catch (error) {
@@ -39,7 +39,7 @@ const Schedules = () => {
     closeDeleteModal()
     try{
       const {floor, room_name, day, slot} = scheduleToDelete
-      const response = await axios.post("https://vercel.com/mumer119131/timetable-management-api/deleteSchedule",{
+      const response = await axios.post("https://timetable-management-api.vercel.app/deleteSchedule",{
         "floor" : floor,
         "room_name" : room_name,
         "day" : day,

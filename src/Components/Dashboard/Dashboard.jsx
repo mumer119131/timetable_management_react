@@ -16,7 +16,7 @@ const Dashboard = () => {
     async function getAllRooms(){
       try {
         setIsLoading(true)
-        const rooms_data =  await axios.get("https://vercel.com/mumer119131/timetable-management-api/getRoomsByFloor")
+        const rooms_data =  await axios.get("https://timetable-management-api.vercel.app/getRoomsByFloor")
         setRooms(rooms_data.data)
         setIsLoading(false)
       } catch (error) {

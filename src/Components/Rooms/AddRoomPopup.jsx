@@ -22,7 +22,7 @@ const AddRoomPopup = (props) => {
         toast.error("Enter room name")
         return
       }
-      const response = await axios.post('https://vercel.com/mumer119131/timetable-management-api/addRoom',{
+      const response = await axios.post('https://timetable-management-api.vercel.app/addRoom',{
         "room_name" : roomName,
         "floor" : selectedFloor,
         "type" : selectedType,
